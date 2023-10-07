@@ -1,0 +1,79 @@
+/*
+ * Copyright (C) 2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ */
+package de.powerstat.configuration.io;
+
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URI;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import de.powerstat.configuration.IReader;
+import de.powerstat.configuration.Manager;
+
+
+/**
+ * Properties to read the configuration from.
+ */
+public class PropertiesReader implements IReader
+ {
+  /**
+   * Logger.
+   */
+  private static final Logger LOGGER = LogManager.getLogger(PropertiesReader.class);
+
+
+  /**
+   * Default constructor.
+   */
+  public PropertiesReader()
+   {
+    super();
+   }
+
+
+  /**
+   * Read configuration from propeties file.
+   *
+   * @param manager Configuration manager
+   * @param uri URI to read the configuration from
+   * @throws FileNotFoundException File not found exception
+   * @throws IOException IO exception
+   */
+  @Override
+  public void readFrom(final Manager manager, final URI uri) throws IOException
+   {
+    final Properties props = new Properties();
+    try (BufferedReader in = new BufferedReader(new FileReader(new File(uri))))
+     {
+      props.load(in);
+     }
+    for (final Map.Entry<Object, Object> entry : props.entrySet())
+     {
+      final String key = (String)entry.getKey();
+      final Class<?> clazz = manager.getType(key);
+      final String value = (String)entry.getValue();
+      try
+       {
+        final Method factory = clazz.getMethod("of", String.class);
+        final Object valueObj = factory.invoke(factory, value);
+        manager.set(key, valueObj);
+       }
+      catch (final NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+       {
+        LOGGER.error("Exception", e); //$NON-NLS-1$
+       }
+     }
+   }
+
+ }

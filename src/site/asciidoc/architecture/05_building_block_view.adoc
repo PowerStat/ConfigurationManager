@@ -1,0 +1,1146 @@
+[[section-building-block-view]]
+
+
+== Building Block View
+
+[plantuml, target=building-block, format=png]   
+....
+package de.powerstat.validation
+{
+  class ValidationUtils
+}
+
+package de.powerstat.validation.comparators
+{
+  class ComparatorEMailByDomain
+}
+
+package de.powerstat.validation.entities
+{
+  class Person
+}
+
+package de.powerstat.validation.entities.impl
+{
+  class HistoryOf
+}
+
+package de.powerstat.validation.values
+{
+  class Address
+  class AddressWithWGS84Position
+  class BFPONumber
+  class BIC
+  class Block
+  class BloodGroup
+  class BuildingName
+  class BuildingNr
+  class City
+  class Country
+  class Currency
+  class Day
+  class Days
+  class Department
+  class DisplayAspectRatio
+  class District
+  class EMail
+  class Firstname
+  class Gener
+  class GregorianCalendar
+  class GregorianDate
+  class Hostname
+  class Hour
+  class Hours
+  class IBAN
+  class IPV4Address
+  class IPV4Mask
+  class IPV6Address
+  class IPV6Mask
+  class Language
+  class Lastname
+  class Lines
+  class MACAddress
+  class Millisecond
+  class Milliseconds
+  class Minute
+  class Minutes
+  class Month
+  class Months
+  class Neighburhood
+  class Password
+  class PoBoxNumber
+  class Port
+  class PostalCode
+  class Province
+  class ScreenSize
+  class Second
+  class Seconds
+  class Street
+  class SubBuilding
+  class TopLevelDomain
+  class Username
+  class Week
+  class Weeks
+  class WGS84Position
+  class Year
+  class Years
+}
+
+package de.powerstat.validation.values.containers
+{
+  class NTuple15
+  class NTuple16
+  class NTuple2
+  class NTuple3
+  class NTuple4
+  class NTuple9
+}
+
+package de.powerstat.validation.values.impl
+{
+  class IBANVerifier
+  class IBANVerifierAbstractFactory
+}
+
+package de.powerstat.validation.values.strategies
+{
+  class IPasswordStrategy
+  class IUsernameStrategy
+  class PasswordConfigurableStrategy
+  class PasswordDefaultStrategy
+  class UsernameConfigurableStrategy
+  class UsernameDefaultStrategy
+}
+
+package de.powerstat.validation.generated
+{
+  class GeneratedInternationalPhoneAreaCodes
+  class GeneratedISO3166A2
+  class GeneratedISO4217
+  class GeneratedISO6391
+  class GeneratedTlds
+}
+
+package java.net
+{
+}
+
+package java.util
+{
+}
+
+package java.io
+{
+}
+
+package java.time
+{
+}
+
+package java.math
+{
+}
+
+java.net <-- de.powerstat.validation
+java.net <-- de.powerstat.validation.values
+java.util <-- de.powerstat.validation
+java.util <-- de.powerstat.validation.comparators
+java.util <-- de.powerstat.validation.entities
+java.util <-- de.powerstat.validation.entities.impl
+java.util <-- de.powerstat.validation.values.impl
+java.util <-- de.powerstat.validation.values.strategies
+java.util <-- de.powerstat.validation.values
+java.util <-- de.powerstat.validation.generated
+java.time <-- de.powerstat.validation.entities
+java.time <-- de.powerstat.validation.entities.impl
+java.io <-- de.powerstat.validation.comparators
+java.math <-- de.powerstat.validation.values
+de.powerstat.validation.generated <-- de.powerstat.validation
+de.powerstat.validation.generated <-- de.powerstat.validation.values
+de.powerstat.validation.entities.impl <-- de.powerstat.validation.entities
+de.powerstat.validation.values <-- de.powerstat.validation.entities
+de.powerstat.validation.values <-- de.powerstat.validation.values.impl
+de.powerstat.validation.values <-- de.powerstat.validation.values.strategies
+de.powerstat.validation.values.impl <-- de.powerstat.validation.values
+de.powerstat.validation.values.strategies <-- de.powerstat.validation.values
+de.powerstat.validation.values.containers <-- de.powerstat.validation.values
+de.powerstat.validation.values.containers <-- de.powerstat.validation.values.impl
+de.powerstat.validation.values.containers <-- de.powerstat.validation.values.strategies
+....
+
+
+=== Whitebox Overall System
+
+[plantuml, target=whitebox-diagram, format=png]   
+....
+package de.powerstat.validation
+ {
+  class ValidationUtils
+   {
+    +{static} sanitizeUrlPath(urlPath : String) : String
+    +{static} splitHostnamePort(hostnamePort : String) : List<String>
+   }
+ }
+
+package de.powerstat.validation.comparators
+ {
+  class ComparatorEMailByDomain
+   {
+    +ComparatorEMailByDomain()
+    +compare(email1 : EMail, email2 : EMail) : int
+   }
+ }
+
+package de.powerstat.validation.entities
+ {
+  class Person
+   {
+    +{static} of() : Person
+    +{static} of(lastname : Lastname, gender : Gender) : Person
+    +{static} of(lastname : Lastname, gender : Gender, firstnames : List<Firstname>) : Person
+    +{static} of(lastname : Lastname, gender : Gender, firstnames : List<Firstname>, birthdate : OffsetDateTime) : Person
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Person) : int
+    +getLastnameAtBirth() : Lastname
+    +getLastnameActual() : Lastname
+    +getLastnamePrevious() : Lastname
+    +addLastname(since : OffsetDateTime, name : Lastname)
+    +getGenderAtBirth() : Gender
+    +getGenderActual() : Gender
+    +getGenderPrevious() : Gender
+    +addGender(since : OffsetDateTime, gender : Gender)
+    +getFirstnamesAtBirth() : List<Firstname>
+    +getFirstnamesActual() : List<Firstname>
+    +getFirstnamesPrevious() : List<Firstname>
+    +addFirstnames(since : OffsetDateTime, names : List<Firstname>)
+    +setBirthday(date : OffsetDateTime)
+    +getBirthday(): Optional<OffsetDateTime>
+    +setDeathdate(date : OffsetDateTime)
+    +getDeathdate() : Optional<OffsetDateTime>
+    +setBloodGroup(bloodGroup :BloodGroup)
+    +getBloodGroup() : Optional<BloodGroup>
+   }
+ }
+
+package de.powerstat.validation.entities.impl
+ {
+  class HistoryOf<T>
+   {
+    +HistoryOf()
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +addEntry(since : OffsetDateTime, entry : T)
+    +getFirstEntry() : T
+    +getLatestEntry() : T
+    +getPreviousEntry() : T
+    +getHistory() : SortedMap<OffsetDateTime, T>
+   }
+ }
+
+package de.powerstat.validation.values
+ {
+  class Address
+   {
+    #Address(country : Country, postalCode : PostalCode, city : City, province : Province, district : District, street : Street, buildingNr : BuildingNr, buildingName : BuildingName, subBuilding : SubBuilding, poBoxNumber : PoBoxNumber, department : Department, neighbourhood : Neighbourhood, block : Block, bFPONumber : BFPONumber, lines : Lines)
+    +{static} of(country : Country, postalCode : PostalCode, city : City, province : Province, district : District, street : Street, buildingNr : BuildingNr, buildingName : BuildingName, subBuilding : SubBuilding, poBoxNumber : PoBoxNumber, department : Department, neighbourhood : Neighbourhood, block : Block, bFPONumber : BFPONumber, lines : Lines) : Address
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Address) : int
+    +getFormattedAddress(recipientName : String) : String
+    +getCountry() : Country
+    +getPostalCode() : PostalCode
+    +getCity() : City
+    +getProvince() : Province
+    +getDistrict() : District
+    +getStreet() : Street
+    +getBuildingNr() : BuildingNr
+    +getBuildingName() : BuildingName
+    +getSubBuilding() : SubBuilding
+    +getPoBoxNumber() : PoBoxNumber
+    +getDepartment() : Department
+    +getNeighbourhood() : Neighbourhood
+    +getBlock() : Block
+    +getBFPONumber() : BFPONumber
+    +getLines() : Lines
+   }
+
+  class AddressWithWGS84Position
+   {
+    +{static} of(country : Country, postalCode : PostalCode, city : City, province : Province, district : District, street : Street, buildingNr : BuildingNr, buildingName : BuildingName, subBuilding : SubBuilding, poBoxNumber : PoBoxNumber, department : Department, neighbourhood : Neighbourhood, block : Block, bFPONumber : BFPONumber, lines : Lines, position : WGS84Position) : AddressWithWGS84Position
+    +getPosition() : WGS84Position
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+   }
+
+  Address <|-- AddressWithWGS84Position
+
+  class BFPONumber
+   {
+    +{static} of(bFPONumber : int) : BFPONumber
+    +intValue() : int
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : BFPONumber) : int
+   }
+
+  class BIC
+   {
+    +{static} of(bic : String) : BIC
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : BIC) : int
+   }
+
+  class Block
+   {
+    +{static} of(block : String) : Block
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Block) : int
+   }
+
+  enum BloodGroup
+   {
+    +BloodGroup(action : int)
+    +getAction() : int
+    +couldDonateTo(other : BloodGroup) : boolean
+    +couldReceiveFrom(other : BloodGroup) : boolean
+   }
+
+  class BuildingName
+   {
+    +{static} of(buildingName : String) : BuildingName
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : BuildingName) : int
+   }
+
+  class BuildingNr
+   {
+    +{static} of(buildingNr : String) : BuildingNr
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : BuildingNr) : int
+   }
+
+  class City
+   {
+    +{static} of(city : String) : City
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : City) : int
+   }
+
+  class Country
+   {
+    +{static} of(alpha2 : String) : Country
+    +stringValue() : String
+    +getEnglishCountryName() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Country) : int
+   }
+
+  class Currency
+   {
+    +{static} of(code : String) : Currency
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Currency) : int
+   }
+
+  class Day
+   {
+    +{static} of(day : int) : Day
+    +intValue() : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Day) : int
+   }
+
+  class Days
+   {
+    +{static} of(days : long) : Days
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Days) : int
+    +add(other : Days) : Days
+    +subtract(other : Days) : Days
+    +multiply(multiplier : long) : Days
+    +divide(divisor : long) : Days
+    +modulo(divisor : long) : Days
+   }
+
+  class Department
+   {
+    +{static} of(department : String) : Department
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Department) : int
+   }
+
+  class DisplayAspectRatio
+   {
+    +{static} of(x : int, y : int) : DisplayAspectRatio
+    +getX() : int
+    +getY() : int
+    +valueString() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : DisplayAspectRatio) : int
+   }
+
+  class District
+   {
+    +{static} of(district : String) : District
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : District) : int
+   }
+
+  class EMail
+   {
+    +{static} of(email : String) : EMail
+    +stringValue() : String
+    +getDomainPart() : String
+    +getReverseDomainPart() : String
+    +getLocalPart() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : EMail) : int
+   }
+
+  class Firstname
+   {
+    +{static} of(firstname : String) : Firstname
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Firstname) : int
+   }
+
+  enum Gender
+   {
+    Gender(action : int)
+    +getAction() : int
+   }
+
+  class GregorianCalendar
+   {
+    +{static} of(country : Country) : GregorianCalendar
+    +getCountry() : Country
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : GregorianCalendar) : int
+    +isLeapYear(year : Year) : boolean
+    +daysInMonth(year : Year, month : Month) : int
+   }
+
+  class GregorianDate
+   {
+    +{static} of(calendar : GregorianCalendar, year : Year, month : Month, day : Day) : GregorianDate
+    +{static} of(year : Year, month : Month, day : Day) : GregorianDate
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : GregorianDate) : int
+    +{static} easter(calendar : GregorianCalendar, year : Year) : GregorianDate
+   }
+
+  class Hostname
+   {
+    +{static} checkHostname(hostname : String) : String
+    +{static} reverseHostname(hostname : String) : String
+    +{static} of(hostname : String) : Hostname
+    +stringValue() : String
+    +getReverseHostname() : String
+    +exist() : boolean
+    +isReachable(timeout : int) : boolean
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Hostname) : int
+   }
+
+  class Hour
+   {
+    +{static} of(hour : int) : Hour
+    +intValue() : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Hour) : int
+   }
+
+  class Hours
+   {
+    +{static} of(hours : long) : Hours
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Hours) : int
+    +add(other : Hours) : Hours
+    +subtract(other : Hours) : Hours
+    +multiply(multiplier : long) : Hours
+    +divide(divisor : long) : Hours
+    +modulo(divisor : long) : Hours
+   }
+
+  class IBAN
+   {
+    +{static} verifyChecksum(iban : String) : boolean
+    +{static} of(iban : String) : IBAN
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : IBAN) : int
+   }
+
+  class IPV4Address
+   {
+    +{static} of(address : String) : IPV4Address
+    +isPrivate() : boolean
+    +isSpecial() : boolean
+    +isPublic() : boolean
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : IPV4Address) : int
+   }
+
+  class IPV4Mask
+   {
+    +{static} of(length : int) : IPV4Mask
+    +{static} of(mask : String) : IPV4Mask
+    +intValue() : int
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : IPV4Mask) : int
+   }
+
+  class IPV6Address
+   {
+    +{static} of(address : String) : IPV6Address
+    +isPrivate() : boolean
+    +isSpecial() : boolean
+    +isPublic() : boolean
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : IPV6Address) : int
+   }
+
+  class IPV6Mask
+   {
+    +{static} of(length : int) : IPV6Mask
+    +intValue() : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : IPV6Mask) : int
+   }
+
+  class Language
+   {
+    +{static} of(code : String) : Language
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Language) : int
+   }
+
+  class Lastname
+   {
+    +{static} of(lastname : String) : Lastname
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Lastname) : int
+   }
+
+  class Lines
+   {
+    +{static} of(lines : String) : Lines
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Lines) : int
+   }
+
+  class MACAddress
+   {
+    +{static} of(address : String) : MACAddress
+    +stringValue(delimiter : String) : String
+    +stringValue() : String
+    +isBroadcast() : boolean
+    +isGroup() : boolean
+    +isLocal() : boolean
+    +isIPV4Multicast() : boolean
+    +isIPV6Multicast() : boolean
+    +isVRRP() : boolean
+    +getOUI() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : MACAddress) : int
+   }
+
+  class Millisecond
+   {
+    +{static} of(millisecond : int) : Millisecond
+    +intValue() : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Millisecond) : int
+   }
+
+  class Milliseconds
+   {
+    +{static} of(milliseconds : long) : Milliseconds
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Milliseconds) : int
+    +add(other : Milliseconds) : Milliseconds
+    +subtract(other : Milliseconds) : Milliseconds
+    +multiply(multiplier : long) : Milliseconds
+    +divide(divisor : long) : Milliseconds
+    +modulo(divisor : long) : Milliseconds
+   }
+
+  class Minute
+   {
+    +{static} of(minute : int) : Minute
+    +intValue() : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Minute) : int
+   }
+
+  class Minutes
+   {
+    +{static} of(minutes : long) : Minutes
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Minutes) : int
+    +add(other : Minutes) : Minutes
+    +subtract(other : Minutes) : Minutes
+    +multiply(multiplier : long) : Minutes
+    +divide(divisor : long) : Minutes
+    +modulo(divisor : long) : Minutes
+   }
+
+  class Month
+   {
+    +{static} of(month : int) : Month
+    +intValue() : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Month) : int
+   }
+
+  class Months
+   {
+    +{static} of(months : long) : Months
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Months) : int
+    +add(other : Months) : Months
+    +subtract(other : Months) : Months
+    +multiply(multiplier : long) : Months
+    +divide(divisor : long) : Months
+    +modulo(divisor : long) : Months
+   }
+
+  class Neighburhood
+   {
+    +{static} of(neighbourhood : String) : Neighbourhood
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Neighburhood) : int
+   }
+
+  class Password
+   {
+    +{static} of(validationStrategy : IPasswordStrategy, password : String) : Password
+    +{static} of(password : String) : Password
+    +stringValue() : String
+    +verifyPassword(password : String) : boolean
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Password) : int
+   }
+
+  class PoBoxNumber
+   {
+    +{static} of(poBoxNumber : long) : PoBoxNumber
+    +longValue() : long
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : PoBoxNumber) : int
+   }
+
+  class Port
+   {
+    +{static} of(port : int) : Port
+    +isSystem() : boolean
+    +isRegistered() : boolean
+    +isDynamic() : boolean
+    +intValue() : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Port) : int
+   }
+
+  class PostalCode
+   {
+    +{static} of(postalCode : String) : PostalCode
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : PostalCode) : int
+   }
+
+  class Province
+   {
+    +{static} of(province : String) : Province
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Province) : int
+   }
+
+  class ScreenSize
+   {
+    +{static} of(width : int, height : int, name : String) : ScreenSize
+    +getWidth() : int
+    +getHeight() : int
+    +stringValue() : String
+    +getName() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : ScreenSize) : int
+   }
+
+  class Second
+   {
+    +{static} of(second : int) : Second
+    +intValue : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Second) : int
+   }
+
+  class Seconds
+   {
+    +{static} of(seconds : long) : Seconds
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Seconds) : int
+    +add(other : Seconds) : Seconds
+    +subtract(other : Seconds) : Seconds
+    +multiply(multiplier : long) : Seconds
+    +divide(divisor : long) : Seconds
+    +modulo(divisor : long) : Seconds
+   }
+
+  class Street
+   {
+    +{static} of(street : String) : Street
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Street) : int
+   }
+
+  class SubBuilding
+   {
+    +{static} of(subBuilding : String) : SubBuilding
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : SubBuilding) : int
+   }
+
+  class TopLevelDomain
+   {
+    +{static} of(topLevelDomain : String) : TopLevelDomain
+    +stringValue() : String
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : TopLevelDomain) : int
+   }
+
+  class Username
+   {
+    +{static} of(validationStrategy : IUsernameStrategy, username : String) : Username
+    +{static} of(username : String) : Username
+    +stringValue() : String
+    +isEMail() : boolean
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Username) : int
+   }
+
+  class Week
+   {
+    +{static} of(week : int) : Week
+    +intValue() : int
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Week) : int
+   }
+
+  class Weeks
+   {
+    +{static} of(weeks : long) : Weeks
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Weeks) : int
+    +add(other : Weeks) : Weeks
+    +subtract(other : Weeks) : Weeks
+    +multiply(multiplier : long) : Weeks
+    +divide(divisor : long) : Weeks
+    +modulo(divisor : long) : Weeks
+   }
+
+  class WGS84Position
+   {
+    +{static} of(latitude : double, longitude : double, altitude : double) : WGS84Position
+    +getLatitude() : double
+    +getLongitude() : double
+    +getAltitude() : double
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : WGS84Position) : int
+   }
+
+  class Year
+   {
+    +{static} of(year : long) : Year
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Year) : int
+   }
+
+  class Years
+   {
+    +{static} of(years : long) : Years
+    +longValue() : long
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : Years) : int
+    +add(other : Years) : Years
+    +subtract(other : Years) : Years
+    +multiply(multiplier : long) : Years
+    +divide(divisor : long) : Years
+    +modulo(divisor : long) : Years
+   }
+ }
+
+package de.powerstat.validation.values.containers
+ {
+  class NTuple15
+   {
+    +{static} of(obj1 : T1, obj2 : T2, obj3 : T3, obj4 : T4, obj5 : T5, obj6 : T6, obj7 : T7, obj8 : T8, obj9 : T9, obj10 : T10, obj11 : T11, obj12 : T12, obj13 : T13, obj14 : T14, obj15 : T15) : NTuple15
+    +t1Value() : T1
+    +t2Value() : T2
+    +t3Value() : T3
+    +t4Value() : T4
+    +t5Value() : T5
+    +t6Value() : T6
+    +t7Value() : T7
+    +t8Value() : T8
+    +t9Value() : T9
+    +t10Value() : T10
+    +t11Value() : T11
+    +t12Value() : T12
+    +t13Value() : T13
+    +t14Value() : T14
+    +t15Value() : T15
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : NTuple15) : int
+   }
+   
+  class NTuple16
+   {
+    +{static} of(obj1 : T1, obj2 : T2, obj3 : T3, obj4 : T4, obj5 : T5, obj6 : T6, obj7 : T7, obj8 : T8, obj9 : T9, obj10 : T10, obj11 : T11, obj12 : T12, obj13 : T13, obj14 : T14, obj15 : T15, obj16 : T16) : NTuple16
+    +t1Value() : T1
+    +t2Value() : T2
+    +t3Value() : T3
+    +t4Value() : T4
+    +t5Value() : T5
+    +t6Value() : T6
+    +t7Value() : T7
+    +t8Value() : T8
+    +t9Value() : T9
+    +t10Value() : T10
+    +t11Value() : T11
+    +t12Value() : T12
+    +t13Value() : T13
+    +t14Value() : T14
+    +t15Value() : T15
+    +t16Value() : T16
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : NTuple16) : int
+   }
+   
+  class NTuple2
+   {
+    +{static} of(obj1 : T1, obj2 : T2) : NTuple2
+    +t1Value() : T1
+    +t2Value() : T2
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : NTuple2) : int
+   }
+   
+  class NTuple3
+   {
+    +{static} of(obj1 : T1, obj2 : T2, obj3 : T3) : NTuple3
+    +t1Value() : T1
+    +t2Value() : T2
+    +t3Value() : T3
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : NTuple3) : int
+   }
+   
+  class NTuple4
+   {
+    +{static} of(obj1 : T1, obj2 : T2, obj3 : T3, obj4 : T4) : NTuple4
+    +t1Value() : T1
+    +t2Value() : T2
+    +t3Value() : T3
+    +t4Value() : T4
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : NTuple4) : int
+   }
+   
+  class NTuple9
+   {
+    +{static} of(obj1 : T1, obj2 : T2, obj3 : T3, obj4 : T4, obj5 : T5, obj6 : T6, obj7 : T7, obj8 : T8, obj9 : T9) : NTuple9
+    +t1Value() : T1
+    +t2Value() : T2
+    +t3Value() : T3
+    +t4Value() : T4
+    +t5Value() : T5
+    +t6Value() : T6
+    +t7Value() : T7
+    +t8Value() : T8
+    +t9Value() : T9
+    +hashCode() : int
+    +equals(obj : Object) : boolean
+    +toString() : String
+    +compareTo(obj : NTuple9) : int
+   }   
+ }
+
+package de.powerstat.validation.values.impl
+ {
+  class IBANVerifier
+   {
+    +{static} of(length : int, regexp : String) : IBANVerifier
+    +verify(iban : String) : boolean
+   }
+
+  class IBANVerifierAbstractFactory
+   {
+    +{static} createIBANVerifier(country : Country) : IBANVerifier
+   }
+ }
+
+package de.powerstat.validation.values.strategies
+ {
+  class IPasswordStrategy
+   {
+    +validationStrategy(password : String)
+   }
+
+  class IUsernameStrategy
+   {
+    +validationStrategy(username : String) : boolean
+   }
+
+  class PasswordConfigurableStrategy
+   {
+    #PasswordConfigurableStrategy(minLength : int, maxLength : int, regexp : String, minNumeric : int, minLower : int, minUpper : int, minSpecial : int, minUnique : int, maxRepeated : int)
+    +{static} of(minLength : int, maxLength : int, regexp : String, minNumeric : int, minLower : int, minUpper : int, minSpecial : int, minUnique : int, maxRepeated : int) : IPasswordStrategy
+    +validationStrategy(password : String)
+   }
+
+  class PasswordDefaultStrategy
+   {
+    +{static} of() : IPasswordStrategy
+   }
+
+  class UsernameConfigurableStrategy
+   {
+    +enum HandleEMail
+    #UsernameConfigurableStrategy(minLength : int, maxLength : int, regexp : String, emailHandling : HandleEMail)
+    +{static} of(minLength : int, maxLength : int, regexp : String, emailHandling : HandleEMail) : IUsernameStrategy
+    +validationStrategy(username : String) : boolean
+   }
+
+  class UsernameDefaultStrategy
+   {
+    +{static} of() : IUsernameStrategy
+   }
+ }
+
+package de.powerstat.validation.generated
+ {
+  class GeneratedInternationalPhoneAreaCodes
+   {
+    +{static} contains(phoneArea : String) : boolean
+    +{static} getName(phoneArea : String) :String
+   }
+
+  class GeneratedISO3166A2
+   {
+    +{static} contains(alpha2 : String) : boolean
+    +{static} getName(alpha2 : String) : String
+   }
+
+  class GeneratedISO4217
+   {
+    +{static} contains(code : String) : boolean
+   }
+
+  class GeneratedISO6391
+   {
+    +{static} contains(code : String) : boolean
+   }
+
+  class GeneratedTlds
+   {
+    +{static}  contains(tld : String) : boolean
+   } 
+ }
+
+package java.net
+ {
+ }
+
+package java.util
+ {
+ }
+
+package java.io
+ {
+ }
+
+package java.time
+ {
+ }
+
+package java.math
+ {
+ }
+
+java.net <-- de.powerstat.validation
+java.net <-- de.powerstat.validation.values
+java.util <-- de.powerstat.validation
+java.util <-- de.powerstat.validation.comparators
+java.util <-- de.powerstat.validation.entities
+java.util <-- de.powerstat.validation.entities.impl
+java.util <-- de.powerstat.validation.values.impl
+java.util <-- de.powerstat.validation.values.strategies
+java.util <-- de.powerstat.validation.values
+java.util <-- de.powerstat.validation.generated
+java.time <-- de.powerstat.validation.entities
+java.time <-- de.powerstat.validation.entities.impl
+java.io <-- de.powerstat.validation.comparators
+java.math <-- de.powerstat.validation.values
+de.powerstat.validation.generated <-- de.powerstat.validation
+de.powerstat.validation.generated <-- de.powerstat.validation.values
+de.powerstat.validation.entities.impl <-- de.powerstat.validation.entities
+de.powerstat.validation.values <-- de.powerstat.validation.entities
+de.powerstat.validation.values <-- de.powerstat.validation.values.impl
+de.powerstat.validation.values <-- de.powerstat.validation.values.strategies
+de.powerstat.validation.values.impl <-- de.powerstat.validation.values
+de.powerstat.validation.values.strategies <-- de.powerstat.validation.values
+de.powerstat.validation.values.containers <-- de.powerstat.validation.values
+de.powerstat.validation.values.containers <-- de.powerstat.validation.values.impl
+de.powerstat.validation.values.containers <-- de.powerstat.validation.values.strategies
+....

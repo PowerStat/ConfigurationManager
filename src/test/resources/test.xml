@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<CONFIGURATIONS>
+  <ENTRY class="de.powerstat.validation.values.BIC" name="test.bic">POWSDE30XXX</ENTRY>
+</CONFIGURATIONS>

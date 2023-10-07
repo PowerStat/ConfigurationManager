@@ -1,0 +1,25 @@
+[[section-glossary]]
+== Glossary
+
+[cols="e,2e" options="header"]
+|===
+|Term |Definition
+
+|GraalVM
+|Graal virtual machine, successor of JVM
+
+|Java
+|The java programming language
+
+|JVM
+|Java virtual machine
+
+|DDD
+|Domain Driven Design
+
+|Value
+|Value object that is not changeable after construction
+
+|Entity
+|Entity object that is changeable after construction
+|===
