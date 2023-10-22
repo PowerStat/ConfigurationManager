@@ -16,6 +16,14 @@ For example when using Apache Maven you could add the following dependency to yo
 
 Other build tools like gradle will work analogous.
 
+Java platform module system:
+
+    module com.example.java.app
+     {
+      requires de.powerstat.configuration;
+      requires de.powerstat.configuration.io;
+     }
+
 To compile this project yourself you could use:
 
     mvn clean install org.pitest:pitest-maven:mutationCoverage site
@@ -64,7 +72,7 @@ To run toolchain:
     
 If you use a sonar server:
 
-    mvn sonar:sonar -Dsonar.login=<username> -Dsonar.password=<password>
+    mvn sonar:sonar -Dsonar.token=<token>
 
 If you use [infer][https://fbinfer.com/]:
 

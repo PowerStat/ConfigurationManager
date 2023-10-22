@@ -7,11 +7,9 @@ package de.powerstat.configuration.io;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URI;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -19,7 +17,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -63,15 +60,15 @@ public class XMLReader implements IReader
    {
     try
      {
-      final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      final var factory = DocumentBuilderFactory.newInstance();
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); //$NON-NLS-1$
-      final DocumentBuilder docBuilder = factory.newDocumentBuilder();
+      final var docBuilder = factory.newDocumentBuilder();
       final Document doc = docBuilder.parse(new File(uri));
       final NodeList nl = doc.getElementsByTagName("ENTRY");
       for (int pos = 0; pos < nl.getLength(); ++pos)
        {
-        final Node node = nl.item(pos);
+        final var node = nl.item(pos);
         final NamedNodeMap attrs = node.getAttributes();
         final String key = attrs.getNamedItem("name").getNodeValue();
         // final String className = attrs.getNamedItem("class").getNodeValue();
@@ -79,7 +76,7 @@ public class XMLReader implements IReader
         final Class<?> clazz = manager.getType(key);
         try
          {
-          final Method mfactory = clazz.getMethod("of", String.class);
+          final var mfactory = clazz.getMethod("of", String.class);
           final Object valueObj = mfactory.invoke(mfactory, value);
           manager.set(key, valueObj);
          }

@@ -9,11 +9,9 @@ import java.net.URI;
 import java.util.Set;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -22,7 +20,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import de.powerstat.configuration.IWriter;
 import de.powerstat.configuration.Manager;
@@ -38,6 +35,11 @@ public class XMLWriter implements IWriter
    * Logger.
    */
   private static final Logger LOGGER = LogManager.getLogger(XMLWriter.class);
+
+  /**
+   * All constant.
+   */
+  private static final String ALL = "all";
 
 
   /**
@@ -59,16 +61,18 @@ public class XMLWriter implements IWriter
    {
     try
      {
-      final TransformerFactory factory = TransformerFactory.newInstance();
-      factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "all"); //$NON-NLS-1$
-      factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "all"); //$NON-NLS-1$
+      final var factory = TransformerFactory.newInstance();
+      factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ALL);
+      // factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, ALL);
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-      final Transformer transformer = factory.newTransformer();
+
+      final var transformer = factory.newTransformer();
       transformer.setOutputProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2"); //$NON-NLS-1$ //$NON-NLS-2$
       transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no"); //$NON-NLS-1$
       transformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
-      final File file = new File(filename);
+      final var file = new File(filename);
       /* final boolean success = */ file.getParentFile().mkdirs();
       transformer.transform(new DOMSource(document), new StreamResult(file));
      }
@@ -95,21 +99,21 @@ public class XMLWriter implements IWriter
    {
     try
      {
-      final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      final var factory = DocumentBuilderFactory.newInstance();
       factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); //$NON-NLS-1$
       // TODO factory.setSchema(null);
-      final DocumentBuilder docBuilder = factory.newDocumentBuilder();
-      final Document doc = docBuilder.newDocument();
+      final var docBuilder = factory.newDocumentBuilder();
+      final var doc = docBuilder.newDocument();
       doc.setXmlVersion("1.0");
-      final Element rootElement = doc.createElement("CONFIGURATIONS");
+      final var rootElement = doc.createElement("CONFIGURATIONS");
       // TODO rootElement.setAttributeNodeNS(null);
       doc.appendChild(rootElement);
 
       final Set<String> keys = manager.keySet();
       for (final String key : keys)
        {
-        final Element element = doc.createElement("ENTRY");
+        final var element = doc.createElement("ENTRY");
         element.setAttribute("name", key);
         element.setAttribute("class", manager.getType(key).getName());
         element.appendChild(doc.createTextNode(((IValueObject)manager.get(key)).stringValue()));

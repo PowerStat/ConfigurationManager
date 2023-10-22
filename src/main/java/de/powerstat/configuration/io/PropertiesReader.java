@@ -4,14 +4,12 @@
 package de.powerstat.configuration.io;
 
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Properties;
 
@@ -53,8 +51,8 @@ public class PropertiesReader implements IReader
   @Override
   public void readFrom(final Manager manager, final URI uri) throws IOException
    {
-    final Properties props = new Properties();
-    try (BufferedReader in = new BufferedReader(new FileReader(new File(uri))))
+    final var props = new Properties();
+    try (var in = Files.newBufferedReader(Paths.get(uri)))
      {
       props.load(in);
      }
@@ -65,7 +63,7 @@ public class PropertiesReader implements IReader
       final String value = (String)entry.getValue();
       try
        {
-        final Method factory = clazz.getMethod("of", String.class);
+        final var factory = clazz.getMethod("of", String.class);
         final Object valueObj = factory.invoke(factory, value);
         manager.set(key, valueObj);
        }

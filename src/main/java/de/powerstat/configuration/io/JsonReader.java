@@ -4,14 +4,12 @@
 package de.powerstat.configuration.io;
 
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -49,16 +47,16 @@ public class JsonReader implements IReader
    *
    * @param manager Configuration manager
    * @param uri URI to read the configuration from
-   * @throws IOException
-   * @throws FileNotFoundException
+   * @throws IOException IO exception
+   * @throws FileNotFoundException File not found
    */
   @Override
-  public void readFrom(final Manager manager, final URI uri) throws FileNotFoundException, IOException
+  public void readFrom(final Manager manager, final URI uri) throws IOException
    {
-    final Gson gson = new Gson();
+    final var gson = new Gson();
     final TypeToken<Map<String, String>> mapType = new TypeToken<>(){};
-    final StringBuilder json = new StringBuilder();
-    try (BufferedReader in = new BufferedReader(new FileReader(new File(uri))))
+    final var json = new StringBuilder();
+    try (var in = Files.newBufferedReader(Paths.get(uri)))
      {
       final String line = in.readLine();
       json.append(line);
@@ -71,7 +69,7 @@ public class JsonReader implements IReader
       final String value = entry.getValue();
       try
        {
-        final Method factory = clazz.getMethod("of", String.class);
+        final var factory = clazz.getMethod("of", String.class);
         final Object valueObj = factory.invoke(factory, value);
         manager.set(key, valueObj);
        }

@@ -4,14 +4,13 @@
 package de.powerstat.configuration.io;
 
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
-import java.util.LinkedHashMap;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,16 +51,16 @@ public class JsonWriter implements IWriter
   @Override
   public void writeTo(final Manager manager, final URI uri)
    {
-    final Gson gson = new Gson();
+    final var gson = new Gson();
     final Set<String> keys = manager.keySet();
-    final Map<String, String> stringMap = new LinkedHashMap<>();
+    final Map<String, String> stringMap = new ConcurrentHashMap<>();
     for (final String key : keys)
      {
       stringMap.put(key, ((IValueObject)manager.get(key)).stringValue());
      }
     final String json = gson.toJson(stringMap);
 
-    try (BufferedWriter out = new BufferedWriter(new FileWriter(new File(uri))))
+    try (var out = Files.newBufferedWriter(Paths.get(uri)))
      {
       out.write(json);
      }

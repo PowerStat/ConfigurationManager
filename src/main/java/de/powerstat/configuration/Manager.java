@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 
 /**
  * Configuration manager.
@@ -23,7 +20,7 @@ public class Manager
   /**
    * Logger.
    */
-  private static final Logger LOGGER = LogManager.getLogger(Manager.class);
+  // private static final Logger LOGGER = LogManager.getLogger(Manager.class);
 
   /**
    * Configuration type map.
@@ -93,6 +90,7 @@ public class Manager
   /**
    * Get configuration.
    *
+   * @param <T> Type
    * @param name Configuration name
    * @return Configuration value of type T
    * @throws ClassCastException In case of incompatible type

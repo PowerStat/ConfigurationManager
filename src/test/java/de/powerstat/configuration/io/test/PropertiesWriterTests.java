@@ -7,9 +7,7 @@ package de.powerstat.configuration.io.test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +19,18 @@ import de.powerstat.validation.values.BIC;
 /**
  * Properties writer tests.
  */
-public class PropertiesWriterTests
+final class PropertiesWriterTests
  {
+  /**
+   * Test bic constant.
+   */
+  private static final String TEST_BIC = "test.bic";
+
+
   /**
    * Default constructor.
    */
-  public PropertiesWriterTests()
+  /* default */  PropertiesWriterTests()
    {
     super();
    }
@@ -34,17 +38,14 @@ public class PropertiesWriterTests
 
   /**
    * Test write to.
-   *
-   * @throws URISyntaxException URI syntax excption
-   * @throws MalformedURLException Malformed URL exception
    */
   @Test
-  public void writeTo() throws URISyntaxException, MalformedURLException
+  /* default */  void testWriteTo()
    {
     final PropertiesWriter pw = new PropertiesWriter();
     final Manager manager = new Manager();
-    manager.register("test.bic", BIC.class);
-    manager.set("test.bic", BIC.of("POWSDE30XXX"));
+    manager.register(TEST_BIC, BIC.class);
+    manager.set(TEST_BIC, BIC.of("POWSDE30XXX"));
     final File file = new File("target/test.properties");
     final URI uri = file.toURI();
     pw.writeTo(manager, uri);

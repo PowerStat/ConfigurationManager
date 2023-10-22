@@ -7,7 +7,6 @@ package de.powerstat.configuration.io.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 
 import org.junit.jupiter.api.Test;
@@ -20,12 +19,18 @@ import de.powerstat.validation.values.BIC;
 /**
  * XML reader tests.
  */
-public class XMLReaderTests
+final class XMLReaderTests
  {
+  /**
+   * Test bic constant.
+   */
+  private static final String TEST_BIC = "test.bic";
+
+
   /**
    * Default constructor.
    */
-  public XMLReaderTests()
+  /* default */  XMLReaderTests()
    {
     super();
    }
@@ -33,19 +38,17 @@ public class XMLReaderTests
 
   /**
    * Read from tests.
-   *
-   * @throws IOException IO exception
    */
   @Test
-  public void readFrom() throws IOException
+  /* default */  void testReadFrom()
    {
     final XMLReader reader = new XMLReader();
     final Manager manager = new Manager();
-    manager.register("test.bic", BIC.class);
+    manager.register(TEST_BIC, BIC.class);
     final File file = new File("src/test/resources/test.xml");
     final URI uri = file.toURI();
     reader.readFrom(manager, uri);
-    assertEquals("POWSDE30XXX", ((BIC)manager.get("test.bic")).stringValue(), "BIC not as expected");
+    assertEquals("POWSDE30XXX", ((BIC)manager.get(TEST_BIC)).stringValue(), "BIC not as expected");
    }
 
  }

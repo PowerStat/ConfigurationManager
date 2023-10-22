@@ -7,9 +7,7 @@ package de.powerstat.configuration.io.test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +19,18 @@ import de.powerstat.validation.values.BIC;
 /**
  * XMLWriter tests.
  */
-public class XMLWriterTests
+final class XMLWriterTests
  {
+  /**
+   * Test bic constant.
+   */
+  private static final String TEST_BIC = "test.bic";
+
+
   /**
    * Default constructor.
    */
-  public XMLWriterTests()
+  /* default */  XMLWriterTests()
    {
     super();
    }
@@ -34,17 +38,14 @@ public class XMLWriterTests
 
   /**
    * Test write to.
-   *
-   * @throws URISyntaxException URI syntax excption
-   * @throws MalformedURLException Malformed URL exception
    */
   @Test
-  public void writeTo() throws URISyntaxException, MalformedURLException
+  /* default */  void testWriteTo()
    {
     final XMLWriter pw = new XMLWriter();
     final Manager manager = new Manager();
-    manager.register("test.bic", BIC.class);
-    manager.set("test.bic", BIC.of("POWSDE30XXX"));
+    manager.register(TEST_BIC, BIC.class);
+    manager.set(TEST_BIC, BIC.of("POWSDE30XXX"));
     final File file = new File("target/test.xml");
     final URI uri = file.toURI();
     pw.writeTo(manager, uri);

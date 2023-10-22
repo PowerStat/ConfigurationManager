@@ -4,11 +4,10 @@
 package de.powerstat.configuration.io;
 
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.Set;
 
@@ -49,13 +48,13 @@ public class PropertiesWriter implements IWriter
   @Override
   public void writeTo(final Manager manager, final URI uri)
    {
-    final Properties props = new Properties();
+    final var props = new Properties();
     final Set<String> keys = manager.keySet();
     for (final String key : keys)
      {
       props.setProperty(key, ((IValueObject)manager.get(key)).stringValue());
      }
-    try (BufferedWriter out = new BufferedWriter(new FileWriter(new File(uri))))
+    try (var out = Files.newBufferedWriter(Paths.get(uri)))
      {
       props.store(out, "PowerStat's configuration manager");
      }
