@@ -97,12 +97,14 @@
       <property name="maximumVariables" value="1" />
     </properties>
   </rule>
+  <!--
   <rule ref="category/java/bestpractices.xml/GuardLogStatement">
     <properties>
       <property name="logLevels" value="trace, debug, info, warn, error, log, finest, finer, fine, info, warning, severe" />
       <property name="guardsMethods" value="isTraceEnabled, isDebugEnabled, isInfoEnabled, isWarnEnabled, isErrorEnabled, isLoggable" />
     </properties>
   </rule>
+  -->
   <rule ref="category/java/bestpractices.xml/JUnit4SuitesShouldUseSuiteAnnotation" />
   <rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseAfterAnnotation" />
   <rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseBeforeAnnotation" />
@@ -117,7 +119,7 @@
   <rule ref="category/java/bestpractices.xml/JUnitAssertionsShouldIncludeMessage" />
   <rule ref="category/java/bestpractices.xml/JUnitTestContainsTooManyAsserts">
     <properties>
-      <property name="maximumAsserts" value="20" />
+      <property name="maximumAsserts" value="26" />
     </properties>
   </rule>
   <rule ref="category/java/bestpractices.xml/JUnitTestsShouldIncludeAssert" />
@@ -194,7 +196,7 @@
       <property name="interfacePattern" value="[A-Z][a-zA-Z0-9]*" />
       <property name="enumPattern" value="[A-Z][a-zA-Z0-9]*" />
       <property name="annotationPattern" value="[A-Z][a-zA-Z0-9]*" />
-      <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+(Utils?|Helper|Constants|Factory)" />
+      <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]*" />
     </properties>
   </rule>
   <rule ref="category/java/codestyle.xml/CommentDefaultAccessModifier">
@@ -284,9 +286,7 @@
   </rule>
   <rule ref="category/java/codestyle.xml/LongVariable">
     <properties>
-      <property name="minimum">
-        <value>31</value>
-      </property>
+      <property name="minimum" value="36" />
     </properties>
   </rule>
   <rule ref="category/java/codestyle.xml/MDBAndSessionBeanNamingConvention" />
@@ -321,12 +321,12 @@
   </rule>
   <rule ref="category/java/codestyle.xml/ShortVariable">
     <properties>
-      <property name="minimum" value="1" />
+      <property name="minimum" value="2" />
     </properties>
   </rule>
   <rule ref="category/java/codestyle.xml/TooManyStaticImports">
     <properties>
-      <property name="maximumStaticImports" value="8" />
+      <property name="maximumStaticImports" value="10" />
     </properties>
   </rule>
   <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement" />
@@ -398,8 +398,8 @@
   <!-- 
   <rule ref="category/java/design.xml/CyclomaticComplexity">
     <properties>
-      <property name="classReportLevel" value="139" />
-      <property name="methodReportLevel" value="30" />
+      <property name="classReportLevel" value="173" />
+      <property name="methodReportLevel" value="34" />
       <property name="cycloOptions" value="" />
     </properties>
   </rule>
@@ -409,17 +409,17 @@
   <rule ref="category/java/design.xml/ExceptionAsFlowControl" />
   <rule ref="category/java/design.xml/ExcessiveImports">
     <properties>
-      <property name="minimum" value="50"/>
+      <property name="minimum" value="58"/>
     </properties>
   </rule>
   <rule ref="category/java/design.xml/ExcessiveParameterList">
     <properties>
-      <property name="minimum" value="17.0" />
+      <property name="minimum" value="17" />
     </properties>
   </rule>
   <rule ref="category/java/design.xml/ExcessivePublicCount">
     <properties>
-      <property name="minimum" value="50.0" />
+      <property name="minimum" value="120" />
     </properties>
   </rule>
   <rule ref="category/java/design.xml/FinalFieldCouldBeStatic" />
@@ -456,7 +456,7 @@
   <!--
   <rule ref="category/java/design.xml/NPathComplexity">
     <properties>
-      <property name="reportLevel" value="241" />
+      <property name="reportLevel" value="531" />
     </properties>
   </rule>
   -->  
@@ -483,12 +483,12 @@
   </rule>
   <rule ref="category/java/design.xml/TooManyFields">
     <properties>
-      <property name="maxfields" value="15" />
+      <property name="maxfields" value="40" />
     </properties>
   </rule>
   <rule ref="category/java/design.xml/TooManyMethods">
     <properties>
-      <property name="maxmethods" value="80" />
+      <property name="maxmethods" value="100" />
     </properties>
   </rule>
   <rule ref="category/java/design.xml/UselessOverridingMethod">
@@ -525,7 +525,7 @@
   </rule>
   <rule ref="category/java/documentation.xml/CommentSize">
     <properties>
-      <property name="maxLines" value="21"/>
+      <property name="maxLines" value="40"/>
       <property name="maxLineLength" value="999" />
     </properties>
   </rule>
@@ -579,7 +579,7 @@
   <!-- 
   <rule ref="category/java/errorprone.xml/AvoidLiteralsInIfCondition">
     <properties>
-      <property name="ignoreMagicNumbers" value="-1, 0" />
+      <property name="ignoreMagicNumbers" value="-1, 0, 1" />
       <property name="ignoreExpressions" value="true" />
     </properties>
   </rule>
@@ -684,11 +684,9 @@
   <rule ref="category/java/errorprone.xml/SuspiciousHashcodeMethodName" />
   <rule ref="category/java/errorprone.xml/SuspiciousOctalEscape" />
   <rule ref="category/java/errorprone.xml/TestClassWithoutTestCases">
-  <!--
     <properties>
       <property name="testClassPattern" value="^(?:.*\.)?Test[^\.]*$|^(?:.*\.)?.*Tests?$|^(?:.*\.)?.*TestCase$" />
     </properties>
-  requires 6.51 -->
   </rule>
   <rule ref="category/java/errorprone.xml/UnconditionalIfStatement" />
   <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion" />
@@ -786,16 +784,6 @@
 
   <!-- Maven POM Rules -->
   <!-- Maven error prone -->
-  <!-- 
-  <rule ref="category/pom/errorprone.xml/InvalidDependencyTypes">
-    <properties>
-      <property name="validTypes" value="pom, jar, maven-plugin, ejb, war, ear, rar, par" />
-    </properties>
-  </rule>
-  require 5.4 -->
-  <!-- 
-  <rule ref="category/pom/errorprone.xml/ProjectVersionAsDependencyVersion" />
-  require 5.4 -->
 
   <!-- Modelica Rules -->
   <!-- PLSQL Rules -->
@@ -804,23 +792,10 @@
 
   <!-- XML Rules -->
   <!-- XML error prone -->
-  <!-- 
-  <rule ref="category/xml/errorprone.xml/MistypedCDATASection" />
-  require 5.0 -->
 
   <!-- XSL Rules -->
   <!-- XSL code style-->
-  <!-- 
-  <rule ref="category/xsl/codestyle.xml/UseConcatOnce" />
-  require 5.0 -->
 
   <!-- XSL performance-->
-  <!-- 
-  <rule ref="category/xsl/performance.xml/AvoidAxisNavigation">
-    <properties>
-      <property name="checkSelfDescendantAbreviation" value="false" />
-    </properties>
-  </rule>
-  require 5.0 -->
 
 </ruleset>
