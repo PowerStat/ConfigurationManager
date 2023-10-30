@@ -22,7 +22,7 @@
 
     <javaRelease>17</javaRelease>
 
-      </properties>
+  </properties>
 
 
   <distributionManagement>
@@ -78,11 +78,10 @@
               <!-- <rule>com.societegenerale.commons.plugin.rules.NoStandardStreamRuleTest</rule> -->
               <!-- <rule>com.societegenerale.commons.plugin.rules.NoTestIgnoreWithoutCommentRuleTest</rule> -->
             </preConfiguredRules>
-
           </rules>
         </configuration>
       </plugin>
-      
+
       <plugin> <!-- Not working: https://issues.apache.org/jira/browse/MJDEPS-25 -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jdeps-plugin</artifactId>
@@ -101,8 +100,8 @@
         <executions>
           <execution>
             <id>enforce</id>
-        <configuration>
-        </configuration>
+            <configuration>
+            </configuration>
             <goals>
               <goal>enforce</goal>
             </goals>
