@@ -44,7 +44,7 @@ pipeline
   environment
    {
     DISABLE_AUTH = 'true'
-    expectedRemoteUrl = "https://github.com/PowerStat/Validation.git"
+    expectedRemoteUrl = "https://github.com/PowerStat/ConfigurationManager.git"
    }
 
 
