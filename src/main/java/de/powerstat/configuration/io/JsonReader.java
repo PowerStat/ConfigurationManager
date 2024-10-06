@@ -62,20 +62,23 @@ public class JsonReader implements IReader
       json.append(line);
      }
     final Map<String, String> stringMap = gson.fromJson(json.toString(), mapType);
-    for (final Map.Entry<String, String> entry : stringMap.entrySet())
+    if (stringMap != null)
      {
-      final String key = entry.getKey();
-      final Class<?> clazz = manager.getType(key);
-      final String value = entry.getValue();
-      try
+      for (final Map.Entry<String, String> entry : stringMap.entrySet())
        {
-        final var factory = clazz.getMethod("of", String.class);
-        final Object valueObj = factory.invoke(factory, value);
-        manager.set(key, valueObj);
-       }
-      catch (final NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
-       {
-        LOGGER.error("Exception", e); //$NON-NLS-1$
+        final String key = entry.getKey();
+        final Class<?> clazz = manager.getType(key);
+        final String value = entry.getValue();
+        try
+         {
+          final var factory = clazz.getMethod("of", String.class);
+          final Object valueObj = factory.invoke(factory, value);
+          manager.set(key, valueObj);
+         }
+        catch (final NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+         {
+          LOGGER.error("Exception", e); //$NON-NLS-1$
+         }
        }
      }
    }
