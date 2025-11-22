@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>validation</name>
-	<comment>PowerStat&apos;s validation utility classes.</comment>
+	<name>ConfigurationManager</name>
+	<comment>PowerStat&apos;s configuration manager.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
