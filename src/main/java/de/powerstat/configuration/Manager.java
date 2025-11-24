@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2023 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2023-2025 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0.
  */
 package de.powerstat.configuration;
 
@@ -54,7 +55,7 @@ public class Manager
    */
   public void register(final String name, final Class<?> type)
    {
-    this.typeMap.put(name, type);
+    typeMap.put(name, type);
    }
 
 
@@ -67,11 +68,11 @@ public class Manager
    */
   public void set(final String name, final Object value)
    {
-    if (value.getClass() != this.typeMap.get(name))
+    if (value.getClass() != typeMap.get(name))
      {
-      throw new IllegalArgumentException((this.typeMap.get(name) == null) ? "name is not registered!" : "Type of value is not of the same class as registered!");
+      throw new IllegalArgumentException((typeMap.get(name) == null) ? "name is not registered!" : "Type of value is not of the same class as registered!");
      }
-    this.configurationMap.put(name, value);
+    configurationMap.put(name, value);
    }
 
 
@@ -83,7 +84,7 @@ public class Manager
    */
   public Class<?> getType(final String name)
    {
-    return this.typeMap.get(name);
+    return typeMap.get(name);
    }
 
 
@@ -98,7 +99,7 @@ public class Manager
   @SuppressWarnings("unchecked")
   public <T extends Object> T get(final String name)
    {
-    return (T)this.configurationMap.get(name);
+    return (T)configurationMap.get(name);
    }
 
 
@@ -109,7 +110,7 @@ public class Manager
    */
   public Set<String> keySet()
    {
-    return this.configurationMap.keySet();
+    return configurationMap.keySet();
    }
 
  }
