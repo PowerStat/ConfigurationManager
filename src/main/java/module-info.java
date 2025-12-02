@@ -16,5 +16,7 @@ module de.powerstat.configuration
   requires org.apache.logging.log4j;
   requires java.xml;
   requires com.google.gson;
+  requires org.checkerframework.checker.qual;
+  requires org.jmolecules.ddd;
 
  }

@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 
 /**
  * Configuration manager.
@@ -80,9 +82,9 @@ public class Manager
    * Get configuration type.
    *
    * @param name Configuration name
-   * @return Configuration class
+   * @return Configuration class or null
    */
-  public Class<?> getType(final String name)
+  public @Nullable Class<?> getType(final String name)
    {
     return typeMap.get(name);
    }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0. -->
 <CONFIGURATIONS>
   <ENTRY class="de.powerstat.validation.values.BIC" name="test.bic">POWSDE30XXX</ENTRY>
 </CONFIGURATIONS>

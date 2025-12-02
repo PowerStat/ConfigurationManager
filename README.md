@@ -80,7 +80,15 @@ To run pmd:
 To run spotbugs:
 
     mvn spotbugs:check
+
+To run errorprone:
+
+    mvn -Perrorprone clean test -DSkipTests
     
+To run checkerframework:
+
+    mvn -Pcheckerframework clean test -DskipTests
+
 To run arch-unit:
 
     mvn arch-unit:arch-test
@@ -101,9 +109,9 @@ If you use [infer][https://fbinfer.com/]:
 
     infer run -- mvn clean compile
 
-To create a spdx:
+Apache-rat:
 
-    mvn spdx:createSPDX
+     mvn apache-rat:check
 
 To create a cycloneDX:
 
