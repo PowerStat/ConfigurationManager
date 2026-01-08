@@ -17,8 +17,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import de.powerstat.configuration.Manager;
-import de.powerstat.validation.values.BIC;
-import de.powerstat.validation.values.Country;
+import de.powerstat.ddd.values.finance.BIC;
+import de.powerstat.ddd.values.geo.Country;
 
 
 /**

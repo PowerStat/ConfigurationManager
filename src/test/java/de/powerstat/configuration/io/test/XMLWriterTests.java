@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023-2025 Dipl.-Inform. Kai Hofmann. All rights reserved!
+ * Copyright (C) 2023-2026 Dipl.-Inform. Kai Hofmann. All rights reserved!
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0.
  */
 package de.powerstat.configuration.io.test;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import de.powerstat.configuration.Manager;
 import de.powerstat.configuration.io.XMLWriter;
-import de.powerstat.validation.values.BIC;
+import de.powerstat.ddd.values.finance.BIC;
 
 
 /**
